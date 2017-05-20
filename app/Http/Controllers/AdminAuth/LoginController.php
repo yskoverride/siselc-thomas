@@ -29,5 +29,16 @@ class LoginController extends Controller
     public function showLoginForm()
     {
        return view('authAdmin.login');
-    }    
+    }
+    
+    public function sendLoginResponse(Request $request)
+    {
+      $request->session()->regenerate();
+
+      $this->clearLoginAttempts($request);
+
+      return $this->authenticated($request, $this->guard()->user())
+              ?: redirect($this->redirectTo);
+    }
+    
 }
